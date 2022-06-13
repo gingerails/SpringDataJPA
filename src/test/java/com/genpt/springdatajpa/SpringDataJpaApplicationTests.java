@@ -17,6 +17,6 @@ class SpringDataJpaApplicationTests {
 
     @Test
     void queryData(){
-        itemRepository.findById(1);
+
     }
 }

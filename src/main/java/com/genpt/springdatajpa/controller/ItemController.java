@@ -7,13 +7,22 @@ import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+
+
 import java.util.*;
 
+/**
+ * ItemController
+ * /itemlookup allows user to enter IDs of products and get them back.
+ *  If no ID is entered, it returns all IDs.
+ */
 @RestController
 public class ItemController {
     @Autowired
     ItemService itemService;
 
+    // GET HTTP
+    // localhost:8080/itemlookup?id=1
     @GetMapping(path="/itemlookup", produces = "application/json")
     List<Items> queryGivenItems(@RequestParam(value = "id", required = false) int[] intId){
 
@@ -25,35 +34,14 @@ public class ItemController {
 
     }
 
+    /*
+        Gets the brand
+        GET HTTP
+        localhost:8080/brandlookup?id=NAPA
+     */
+    @GetMapping(path="/brandlookup", produces = "application/json")
+    List<Items> queryGivenBrand(@RequestParam(value = "brand", required = false) String[] brandName) {
+        return itemService.findAllByBrandIn(brandName);
+    }
+
 }
-//    @GetMapping(path="/itemlookup")
-//    //goto service class
-//    List<Items> queryData(){
-//        return itemService.getAll();
-//
-//    }
-
-//    @GetMapping(path="/{id}")
-//    List<Items> queryGivenItems(@PathVariable("id") String stringId){
-//        return itemRepository.findAllByID(stringId);
-//    }
-
-//    List<Items> queryItem(){
-//        ArrayList itemList =new ArrayList<>();
-//        return itemService.getAll();
-//    }
-
-//    @GetMapping(path = "/hello")
-//    ResponseEntity<String> hello(){
-//        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
-//    }
-//    List<Items> queryItem(){
-//        List<Items> itemList = new ArrayList<>();
-//        itemRepository.findById().forEach(Item -> itemList.add(Item));
-//        return itemList;
-//    }
-
-//    @GetMapping("/o")
-//    public String index(){
-//        return "Hello world";
-//    }
